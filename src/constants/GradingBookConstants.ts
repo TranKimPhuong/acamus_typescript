@@ -1,0 +1,35 @@
+export const GRADING_BOOK_URLS = {
+  TEMPLATE_LIST: '/subject-grading-book-templates/list',
+} as const;
+
+export const CAMPUS = {
+  NAME: 'Phuong_test',
+} as const;
+
+export const SCHOOL_YEAR = {
+  NAME: '2026-2027',
+} as const;
+
+export interface GradingBookTemplate {
+  code: string;
+  name: string;
+}
+
+export const SYSTEM_GRADING_BOOK_TEMPLATES: GradingBookTemplate[] = [
+  {
+    code: 'TH_MOET_DGDK_MUCDATDUOC',
+    name: 'Sổ điểm MOET - Tiểu học - Đánh giá định kỳ & Mức đạt được',
+  },
+  {
+    code: 'TH_MOET_MUCDATDUOC',
+    name: 'Sổ điểm MOET - Tiểu học - Đánh giá theo mức đạt được',
+  },
+  {
+    code: 'THCS_THPT_MOET_DGBD',
+    name: 'Sổ điểm MOET - Trung học - Đánh giá bằng điểm',
+  },
+  {
+    code: 'THCS_THPT_MOET_DGNX',
+    name: 'Sổ điểm MOET - Trung học - Đánh giá nhận xét',
+  },
+];
