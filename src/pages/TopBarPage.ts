@@ -1,7 +1,7 @@
 import { Page, Locator } from '@playwright/test';
 import { BasePage } from '../libs/BasePage';
 
-export class DashboardPage extends BasePage {
+export class TopBarPage extends BasePage {
   // ── User / logout menu ────────────────────────────────────────────────────
   readonly userMenuButton: Locator;
   readonly logoutButton: Locator;

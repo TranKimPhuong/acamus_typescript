@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { LoginActions } from '../src/actions/LoginActions';
-import { DashboardActions } from '../src/actions/DashboardActions';
+import { TopBarActions } from '../src/actions/TopBarActions';
 import {
   VALID_USER,
   INVALID_CREDENTIALS,
@@ -8,6 +8,7 @@ import {
   SPECIAL_CHAR_CREDENTIALS,
 } from '../src/data/LoginData';
 import { homepageURL, LOGIN_MESSAGES } from '../src/constants/LoginConstants';
+import { LogoutActions } from '@actions/LogoutActions';
 
 test.describe('Login Module - https://sis-qc.sis.flexiapp.cloud/', () => {
 
@@ -24,7 +25,8 @@ test.describe('Login Module - https://sis-qc.sis.flexiapp.cloud/', () => {
   // ─── TC_LOGIN_002 ────────────────────────────────────────────────────────────
   test('TC_LOGIN_002 - Login successfully with valid credentials then logout', async ({ page }) => {
     const loginActions = new LoginActions(page);
-    const logoutActions = new DashboardActions(page);
+    const topBarActions = new TopBarActions(page);
+    const logoutActions = new LogoutActions(page);
 
     // Step 1: Login
     await loginActions.loginAndWaitForDashboard(VALID_USER.username, VALID_USER.password);
@@ -33,13 +35,13 @@ test.describe('Login Module - https://sis-qc.sis.flexiapp.cloud/', () => {
     await loginActions.assertRedirectedAfterLogin(homepageURL);
 
     // Step 3: Logout
-    await logoutActions.logout();
+    await topBarActions.logout();
 
     // Step 4: Assert redirected to logout page
     await logoutActions.assertOnLogoutPage();
 
     // Step 5: Close browser
-    await logoutActions.closeBrowser();
+    await topBarActions.closeBrowser();
   });
 
   // ─── TC_LOGIN_003 ────────────────────────────────────────────────────────────

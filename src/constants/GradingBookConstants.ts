@@ -2,13 +2,6 @@ export const GRADING_BOOK_URLS = {
   TEMPLATE_LIST: '/subject-grading-book-templates/list',
 } as const;
 
-export const CAMPUS = {
-  NAME: 'Phuong_test',
-} as const;
-
-export const SCHOOL_YEAR = {
-  NAME: '2026-2027',
-} as const;
 
 export interface GradingBookTemplate {
   code: string;

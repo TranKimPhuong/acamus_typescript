@@ -1,54 +1,30 @@
 import { Page, expect } from '@playwright/test';
 import { SubjectGradingBookTemplatePage } from '../pages/SubjectGradingBookTemplatePage';
-import { NavigationMenuPage } from '../pages/NavigationMenuPage';
+import { NavigationMenuActions } from './NavigationMenuActions';
 import { Logger } from '../libs/Logger';
-import { GRADING_BOOK_URLS, GradingBookTemplate } from '../constants/GradingBookConstants';
+import { GradingBookTemplate } from '../constants/GradingBookConstants';
 import { TIMEOUTS } from '../constants/LoginConstants';
 
 export class SubjectGradingBookTemplateActions {
   private page: Page;
   private templatePage: SubjectGradingBookTemplatePage;
-  private menuPage: NavigationMenuPage;
+  readonly nav: NavigationMenuActions;
   private logger: Logger;
 
   constructor(page: Page) {
     this.page = page;
     this.templatePage = new SubjectGradingBookTemplatePage(page);
-    this.menuPage = new NavigationMenuPage(page);
+    this.nav = new NavigationMenuActions(page);
     this.logger = new Logger('SubjectGradingBookTemplateActions');
   }
 
-  async navigateViaMenu(): Promise<void> {
-    this.logger.step('Qua menu chọn Sổ điểm');
-    await this.menuPage.waitForElement(this.menuPage.gradingBookMenu, TIMEOUTS.MEDIUM);
-    await this.menuPage.clickElement(this.menuPage.gradingBookMenu);
-
-    this.logger.step('Chọn menu con Cơ chế chấm điểm');
-    await this.menuPage.waitForElement(this.menuPage.gradingMechanismSubMenu, TIMEOUTS.MEDIUM);
-    await this.menuPage.clickElement(this.menuPage.gradingMechanismSubMenu);
-
-    this.logger.step('Chọn Sổ điểm mẫu');
-    await this.menuPage.waitForElement(this.menuPage.gradingBookTemplateItem, TIMEOUTS.MEDIUM);
-    await this.menuPage.clickElement(this.menuPage.gradingBookTemplateItem);
-
-    await this.templatePage.waitForPageLoad();
-    await this.templatePage.waitForElement(this.templatePage.templateTable, TIMEOUTS.LONG);
-  }
-
-  async navigateToTemplateList(): Promise<void> {
-    this.logger.step('Navigate to grading book template list');
-    await this.templatePage.navigate(GRADING_BOOK_URLS.TEMPLATE_LIST);
-    await this.templatePage.waitForPageLoad();
-    await this.templatePage.waitForElement(this.templatePage.templateTable, TIMEOUTS.LONG);
-  }
-
   async assertTemplateExistsByCode(code: string): Promise<void> {
-    this.logger.step(`Assert template with code "${code}" is visible`);
+    this.logger.step(`Assert template với code "${code}" visible`);
     await expect(this.templatePage.templateCodeCell(code)).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
   }
 
   async assertTemplateExistsByName(name: string): Promise<void> {
-    this.logger.step(`Assert template with name "${name}" is visible`);
+    this.logger.step(`Assert template với name "${name}" visible`);
     await expect(this.templatePage.templateNameCell(name)).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
   }
 
@@ -59,14 +35,14 @@ export class SubjectGradingBookTemplateActions {
   }
 
   async assertAllSystemTemplatesExist(templates: GradingBookTemplate[]): Promise<void> {
-    this.logger.step(`Assert all ${templates.length} system templates are present`);
+    this.logger.step(`Assert tất cả ${templates.length} system templates`);
     for (const template of templates) {
       await this.assertTemplateExists(template);
     }
   }
 
   async assertTemplateListUrl(): Promise<void> {
-    this.logger.step('Assert current URL is template list page');
+    this.logger.step('Assert URL là trang danh sách sổ điểm mẫu');
     await expect(this.page).toHaveURL(new RegExp('subject-grading-book-templates/list'), {
       timeout: TIMEOUTS.MEDIUM,
     });

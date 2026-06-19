@@ -2,9 +2,9 @@
 import { SubjectGradingBookTemplateDetailPage } from '../pages/SubjectGradingBookTemplateDetailPage';
 import { SubjectGradingBookColumnDetailPage } from '../pages/SubjectGradingBookColumnDetailPage';
 import { SubjectGradingBookTemplatePage } from '../pages/SubjectGradingBookTemplatePage';
+import { NavigationMenuActions } from './NavigationMenuActions';
 import { Logger } from '../libs/Logger';
 import { GradingBookTemplateDetail, ColumnConfig, GRADING_TYPE_VALUE, CALCULATION_TYPE_VALUE } from '../constants/GradingBookDetailConstants';
-import { GRADING_BOOK_URLS } from '../constants/GradingBookConstants';
 import { TIMEOUTS } from '../constants/LoginConstants';
 
 declare const document: any;
@@ -14,6 +14,7 @@ export class SubjectGradingBookTemplateDetailActions {
   private detailPage: SubjectGradingBookTemplateDetailPage;
   private columnDetailPage: SubjectGradingBookColumnDetailPage;
   private listPage: SubjectGradingBookTemplatePage;
+  readonly nav: NavigationMenuActions;
   private logger: Logger;
 
   constructor(page: Page) {
@@ -21,20 +22,8 @@ export class SubjectGradingBookTemplateDetailActions {
     this.detailPage = new SubjectGradingBookTemplateDetailPage(page);
     this.columnDetailPage = new SubjectGradingBookColumnDetailPage(page);
     this.listPage = new SubjectGradingBookTemplatePage(page);
+    this.nav = new NavigationMenuActions(page);
     this.logger = new Logger('SubjectGradingBookTemplateDetailActions');
-  }
-
-  // ── Điều hướng ────────────────────────────────────────────────────────────
-
-  async navigateBackToTemplateList(): Promise<void> {
-    this.logger.step('Quay về danh sách sổ điểm mẫu');
-    await this.page.goto(GRADING_BOOK_URLS.TEMPLATE_LIST);
-    await this.listPage.waitForPageLoad();
-    // Chờ ít nhất 1 link code trong DevExtreme grid xuất hiện — đảm bảo data đã load xong
-    await this.page
-      .locator('div.dx-template-wrapper a.link-opacity-100')
-      .first()
-      .waitFor({ state: 'visible', timeout: TIMEOUTS.LONG });
   }
 
   // ── Mở detail ─────────────────────────────────────────────────────────────
