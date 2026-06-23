@@ -11,14 +11,12 @@ import { TH_MOET_MUCDATDUOC_DETAIL } from '../src/constants/GradingBookDetailCon
 import { THCS_THPT_MOET_DGBD_DETAIL } from '../src/constants/GradingBookDetailConstants';
 import { THCS_THPT_MOET_DGNX_DETAIL } from '../src/constants/GradingBookDetailConstants';
 
-const LOGIN_HOST_URL = 'https://sis-qc-host.sis.flexiapp.cloud/';
-
 test.describe('Sổ điểm mẫu - Subject Grading Book Templates', () => {
 
   test.setTimeout(300000); // 5 phút — nhiều cột × nhiều assertions
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(LOGIN_HOST_URL);
+    await page.goto('/');
   });
 
   // ─── TC_SGBT_001 ─────────────────────────────────────────────────────────────

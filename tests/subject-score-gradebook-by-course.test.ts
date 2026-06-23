@@ -7,8 +7,6 @@ import { CAMPUS } from '../src/constants/TopBarConstants';
 import { SCHOOL_YEAR } from '../src/constants/TopBarConstants';
 import { TEST_CLASS } from '../src/constants/ClassConstants';
 
-const LOGIN_HOST_URL = 'https://sis-qc-host.sis.flexiapp.cloud/';
-
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 async function loginAndSelectContext(page: any) {
@@ -25,7 +23,7 @@ test.describe('Nhập điểm môn học - Subject Score Gradebook by Course (12
   test.setTimeout(600_000); // 10 phút — nhiều lớp bộ môn × nhập 14 cột mỗi lớp
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(LOGIN_HOST_URL);
+    await page.goto('/');
   });
 
   // ── TC_SSG_001 ──────────────────────────────────────────────────────────────

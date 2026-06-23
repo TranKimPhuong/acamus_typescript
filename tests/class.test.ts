@@ -6,8 +6,6 @@ import { ClassDetailActions } from '../src/actions/ClassDetailActions';
 import { VALID_USER } from '../src/data/LoginData';
 import { CAMPUS, SCHOOL_YEAR } from '../src/constants/TopBarConstants';
 
-const LOGIN_HOST_URL = 'https://sis-qc-host.sis.flexiapp.cloud/';
-
 async function loginAndSelectContext(page: any) {
   const loginActions = new LoginActions(page);
   const topBarActions = new TopBarActions(page);
@@ -18,7 +16,7 @@ async function loginAndSelectContext(page: any) {
 test.describe('Class - Danh sách lớp học', () => {
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(LOGIN_HOST_URL);
+    await page.goto('/');
   });
 
   test('TC_001 - Kiểm tra lớp 12A1_auto tồn tại trong danh sách lớp học', async ({ page }) => {
