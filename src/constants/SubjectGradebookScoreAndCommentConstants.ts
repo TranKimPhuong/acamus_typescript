@@ -1,11 +1,3 @@
-// URLs for score gradebook and precondition pages
-export const SCORE_GRADEBOOK_URLS = {
-  BY_COURSE_LIST:               'https://sis-qc.sis.flexiapp.cloud/subject-score-gradebook-by-course/list',
-  SCHOOL_CLASSES_LIST:          'https://sis-qc.sis.flexiapp.cloud/school-classes/list',
-  TEST_CLASS_UPDATE:'https://sis-qc.sis.flexiapp.cloud/school-classes/e93a4857-35da-e59a-b2bc-3a21db1d806a/update',
-  SUBJECT_GRADING_BOOK_VIEWS:   'https://sis-qc.sis.flexiapp.cloud/subject-grading-book-views/list',
-} as const;
-
 // Input column labels shown in the score entry grid header
 export const SCORE_COLS = ['TX1', 'TX2', 'TX3', 'TX4', 'TX5', 'GK', 'CK'] as const;
 export type ScoreCol = typeof SCORE_COLS[number];
@@ -50,9 +42,9 @@ export const DEFAULT_HK_WEIGHTS: Record<ScoreCol, number> = {
 // HK1 hệ số 1, HK2 hệ số 2 → CN = (HK1*1 + HK2*2) / 3
 export const YEAR_WEIGHTS = { HK1: 1, HK2: 2 } as const;
 
-/** Integer random score in [5, 10] */
+/** Integer random score in [4, 10] */
 export function randomScore(): number {
-  return Math.floor(Math.random() * 6) + 5;
+  return Math.floor(Math.random() * 7) + 4;
 }
 
 /** Generate random scores for all 7 columns of one semester */

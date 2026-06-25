@@ -8,7 +8,7 @@ import { BasePage } from '../libs/BasePage';
  * ⚠️  Selector dựa trên pattern Angular reactive form (formcontrolname) + DevExtreme.
  *     Nếu selector sai hãy inspect DOM thực tế và điều chỉnh cho khớp.
  */
-export class SubjectGradingBookColumnDetailPage extends BasePage {
+export class SubjectGradebookTemplateColumnDetailPage extends BasePage {
 
   // Chờ trang detail load xong — element này phải xuất hiện trước khi assert
   readonly detailForm: Locator;

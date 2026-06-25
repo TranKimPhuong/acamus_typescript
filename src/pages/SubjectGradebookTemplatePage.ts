@@ -1,11 +1,8 @@
 import { Page, Locator } from '@playwright/test';
 import { BasePage } from '../libs/BasePage';
 
-export class SubjectGradingBookTemplatePage extends BasePage {
-  readonly pageTitle: Locator;
+export class SubjectGradebookTemplatePage extends BasePage {
   readonly templateTable: Locator;
-  readonly tableRows: Locator;
-  readonly loadingSpinner: Locator;
 
   // Column locators within a row — pass text of the code cell
   templateRowByCode(code: string): Locator {
@@ -27,18 +24,8 @@ export class SubjectGradingBookTemplatePage extends BasePage {
   constructor(page: Page) {
     super(page);
 
-    this.pageTitle = page.locator(
-      'h1:has-text("Sổ điểm mẫu"), h2:has-text("Sổ điểm mẫu"), .page-title:has-text("Sổ điểm mẫu"), [class*="title"]:has-text("Sổ điểm mẫu")'
-    ).first();
-
     this.templateTable = page.locator(
       'table, .ant-table, [class*="table"]'
-    ).first();
-
-    this.tableRows = page.locator('tbody tr, .ant-table-row, [class*="table-row"]');
-
-    this.loadingSpinner = page.locator(
-      '.ant-spin, [class*="loading"], [class*="spinner"]'
     ).first();
   }
 }

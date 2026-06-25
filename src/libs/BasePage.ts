@@ -48,8 +48,8 @@ export class BasePage {
     await locator.fill(text);
   }
 
-  async assertVisible(locator: Locator): Promise<void> {
-    await expect(locator).toBeVisible();
+  async assertVisible(locator: Locator, timeout?: number): Promise<void> {
+    await expect(locator).toBeVisible({ timeout });
   }
 
   async assertText(locator: Locator, expected: string): Promise<void> {

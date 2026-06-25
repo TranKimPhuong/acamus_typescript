@@ -14,13 +14,16 @@ export default defineConfig({
   use: {
     baseURL: 'https://sis-qc.sis.flexiapp.cloud/',
     headless: false,
+    // Open browser maximized and let Playwright inherit the full window size
+    viewport: null,
+    launchOptions: { args: ['--start-maximized'] },
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {},
     },
   ],
 });

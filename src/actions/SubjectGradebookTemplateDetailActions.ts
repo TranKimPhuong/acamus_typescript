@@ -1,29 +1,29 @@
 ﻿import { Page, Locator, expect } from '@playwright/test';
-import { SubjectGradingBookTemplateDetailPage } from '../pages/SubjectGradingBookTemplateDetailPage';
-import { SubjectGradingBookColumnDetailPage } from '../pages/SubjectGradingBookColumnDetailPage';
-import { SubjectGradingBookTemplatePage } from '../pages/SubjectGradingBookTemplatePage';
+import { SubjectGradebookTemplateDetailPage } from '../pages/SubjectGradebookTemplateDetailPage';
+import { SubjectGradebookTemplateColumnDetailPage } from '../pages/SubjectGradebookTemplateColumnDetailPage';
+import { SubjectGradebookTemplatePage } from '../pages/SubjectGradebookTemplatePage';
 import { NavigationMenuActions } from './NavigationMenuActions';
 import { Logger } from '../libs/Logger';
-import { GradingBookTemplateDetail, ColumnConfig, GRADING_TYPE_VALUE, CALCULATION_TYPE_VALUE } from '../constants/GradingBookDetailConstants';
+import { GradingBookTemplateDetail, ColumnConfig, GRADING_TYPE_VALUE, CALCULATION_TYPE_VALUE } from '../constants/SubjectGradebookTemplateDetailConstants';
 import { TIMEOUTS } from '../constants/LoginConstants';
 
 declare const document: any;
 
-export class SubjectGradingBookTemplateDetailActions {
+export class SubjectGradebookTemplateDetailActions {
   private page: Page;
-  private detailPage: SubjectGradingBookTemplateDetailPage;
-  private columnDetailPage: SubjectGradingBookColumnDetailPage;
-  private listPage: SubjectGradingBookTemplatePage;
+  private detailPage: SubjectGradebookTemplateDetailPage;
+  private columnDetailPage: SubjectGradebookTemplateColumnDetailPage;
+  private listPage: SubjectGradebookTemplatePage;
   readonly nav: NavigationMenuActions;
   private logger: Logger;
 
   constructor(page: Page) {
     this.page = page;
-    this.detailPage = new SubjectGradingBookTemplateDetailPage(page);
-    this.columnDetailPage = new SubjectGradingBookColumnDetailPage(page);
-    this.listPage = new SubjectGradingBookTemplatePage(page);
+    this.detailPage = new SubjectGradebookTemplateDetailPage(page);
+    this.columnDetailPage = new SubjectGradebookTemplateColumnDetailPage(page);
+    this.listPage = new SubjectGradebookTemplatePage(page);
     this.nav = new NavigationMenuActions(page);
-    this.logger = new Logger('SubjectGradingBookTemplateDetailActions');
+    this.logger = new Logger('SubjectGradebookTemplateDetailActions');
   }
 
   // ── Mở detail ─────────────────────────────────────────────────────────────

@@ -63,9 +63,10 @@ export class LoginActions {
 
   async assertLoginPageVisible(): Promise<void> {
     this.logger.step('Assert login page is visible');
-    await this.loginPage.assertVisible(this.loginPage.usernameInput);
-    await this.loginPage.assertVisible(this.loginPage.passwordInput);
-    await this.loginPage.assertVisible(this.loginPage.loginButton);
+    await this.loginPage.waitForPageLoad();
+    await this.loginPage.assertVisible(this.loginPage.usernameInput, TIMEOUTS.SHORT);
+    await this.loginPage.assertVisible(this.loginPage.passwordInput, TIMEOUTS.SHORT);
+    await this.loginPage.assertVisible(this.loginPage.loginButton, TIMEOUTS.SHORT);
   }
 
   async assertLoginFailed(): Promise<void> {

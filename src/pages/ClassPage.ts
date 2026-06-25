@@ -8,13 +8,6 @@ export class ClassPage extends BasePage {
 
   // ── Dynamic locators ─────────────────────────────────────────────────────
 
-  /** Row in the school class list matching the given class name */
-  classRow(className: string): Locator {
-    return this.page.locator(
-      `tr:has-text("${className}"), .dx-data-row:has-text("${className}")`
-    ).first();
-  }
-
   /** Row matching both code and name with exact cell values (DevExtreme grid) */
   classRowByCodeAndName(code: string, name: string): Locator {
     return this.page.locator('.dx-data-row')

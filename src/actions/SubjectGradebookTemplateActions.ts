@@ -1,21 +1,21 @@
 import { Page, expect } from '@playwright/test';
-import { SubjectGradingBookTemplatePage } from '../pages/SubjectGradingBookTemplatePage';
+import { SubjectGradebookTemplatePage } from '../pages/SubjectGradebookTemplatePage';
 import { NavigationMenuActions } from './NavigationMenuActions';
 import { Logger } from '../libs/Logger';
-import { GradingBookTemplate } from '../constants/GradingBookConstants';
+import { GradingBookTemplate } from '../constants/SubjectGradebookTemplateConstants';
 import { TIMEOUTS } from '../constants/LoginConstants';
 
-export class SubjectGradingBookTemplateActions {
+export class SubjectGradebookTemplateActions {
   private page: Page;
-  private templatePage: SubjectGradingBookTemplatePage;
+  private templatePage: SubjectGradebookTemplatePage;
   readonly nav: NavigationMenuActions;
   private logger: Logger;
 
   constructor(page: Page) {
     this.page = page;
-    this.templatePage = new SubjectGradingBookTemplatePage(page);
+    this.templatePage = new SubjectGradebookTemplatePage(page);
     this.nav = new NavigationMenuActions(page);
-    this.logger = new Logger('SubjectGradingBookTemplateActions');
+    this.logger = new Logger('SubjectGradebookTemplateActions');
   }
 
   async assertTemplateExistsByCode(code: string): Promise<void> {

@@ -1,8 +1,3 @@
-export const GRADING_BOOK_URLS = {
-  TEMPLATE_LIST: '/subject-grading-book-templates/list',
-} as const;
-
-
 export interface GradingBookTemplate {
   code: string;
   name: string;
