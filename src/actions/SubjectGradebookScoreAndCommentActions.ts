@@ -5,7 +5,6 @@ import { Logger } from '../libs/Logger';
 import { TIMEOUTS } from '../constants/LoginConstants';
 import { randomScore } from '../constants/SubjectGradebookScoreAndCommentConstants';
 
-export type SubjectType = 'score' | 'dropdown' | 'comment' | 'none_type_found';
 
 export class SubjectGradebookScoreAndCommentActions {
   private page: Page;
@@ -54,12 +53,11 @@ export class SubjectGradebookScoreAndCommentActions {
       trCount,
       `Bảng điểm phải có hơn 0 thẻ tr (tìm thấy ${trCount})`
     ).toBeGreaterThan(0);
-    this.logger.info(`Bảng điểm có ${trCount} thẻ tr ✓`);
+    this.logger.info(`Bảng điểm có ${trCount} học sinh`);
   }
 
   // ── Subject type detection ───────────────────────────────────────────────
 
-  // Tìm colName trong headerThs() để lấy absolute index, rồi check TD tương ứng trong body
   private async detectCellTypeAtColumn(colName: string): Promise<string> {
     const ths = this.listPage.headerThs();
     const count = await ths.count();
@@ -70,30 +68,46 @@ export class SubjectGradebookScoreAndCommentActions {
       if ((text ?? '').trim() === colName) { colIndex = i; break; }
     }
     if (colIndex < 0) return 'none_type_found';
+
     const td = this.listPage.firstRowCellAt(colIndex);
-    if (await td.locator('dx-select-box').count() > 0)                    return 'dropdown';
-    if (await td.locator('dx-number-box').count() > 0)                    return 'number input';
-    if (await td.locator('i.fa-comment, app-comment-view').count() > 0)   return 'comment';
-    return 'none_type_found';
+
+    // app-comment-view luôn hiện trong cell mà ko cần click → detect ngay
+    if (await td.locator('app-comment-view').count() > 0) return 'comment';
+
+    // score / dropdown: phải click để Angular render input widget
+    let type = 'none_type_found';
+    try {
+      await td.scrollIntoViewIfNeeded();
+      await td.click({ force: true });
+      await this.page.waitForTimeout(400);
+
+      if (await td.locator('dx-select-box').count() > 0)       type = 'dropdown';
+      else if (await td.locator('dx-number-box').count() > 0)  type = 'number input';
+    } finally {
+      await this.page.keyboard.press('Escape');
+      await this.page.waitForTimeout(200);
+    }
+    return type;
   }
 
-  async detectSubjectTypeFromGrid(): Promise<SubjectType> {
-    this.logger.step('Kiểm tra loại Sổ điểm');
+  async enterScoresByColumnType(): Promise<void> {
     const cols = await this.getScoreInputColumns();
-    this.logger.step(`scoreColumnThs count: ${cols}`);
+    const rowCount = await this.listPage.getRowCount();
+    this.logger.step(`Nhập điểm cho ${rowCount} HS, ${cols.length} cột: ${cols.join(', ')}`);
 
-    const tx1Col = cols.find(c => c === 'TX1') ?? null;
-    if (!tx1Col) {
-      this.logger.warn(`Không tìm thấy cột TX1 trong: ${cols.join(', ')}`);
-      return 'none_type_found';
+    for (const col of cols) {
+      const colType = await this.detectCellTypeAtColumn(col);
+      this.logger.info(`Cột "${col}" → type: "${colType}"`);
+
+      for (let row = 0; row < rowCount; row++) {
+        const studentName = await this.listPage.getStudentNameAt(row);
+        this.logger.info(`  Hàng ${row} (${studentName || 'không rõ tên'})`);
+        if (colType === 'number input')  await this.enterScoreCell(row, col);
+        else if (colType === 'dropdown') await this.enterDropdownCell(row, col);
+        else if (colType === 'comment')  await this.enterCommentCell(row, col);
+        else this.logger.warn(`Cột "${col}" hàng ${row}: type không xác định, bỏ qua`);
+      }
     }
-    const cellType = await this.detectCellTypeAtColumn(tx1Col);
-    const type: SubjectType = cellType === 'dropdown'     ? 'dropdown'
-                            : cellType === 'comment'      ? 'comment'
-                            : cellType === 'number input' ? 'score'
-                            : 'none_type_found';
-    this.logger.info(`Cột "${tx1Col}" cellType="${cellType}" → subjectType="${type}"`);
-    return type;
   }
 
   // ── Score/comment entry ────────────────────────────────────────────────
@@ -115,30 +129,13 @@ export class SubjectGradebookScoreAndCommentActions {
     return cols;
   }
 
-  /**
-   * Nhập giá trị cho toàn bộ học sinh (tất cả các hàng) tùy loại môn:
-   *   score    → nhập điểm số ngẫu nhiên (4–10)
-   *   dropdown → chọn "Đạt" từ dx-select-box
-   *   comment  → nhập text "nx tốt" vào textarea
-   */
-  async enterScoresByType(subjectType: SubjectType): Promise<void> {
-    const cols = await this.getScoreInputColumns();
-    const rowCount = await this.listPage.getRowCount();
-    this.logger.step(`Nhập "${subjectType}" cho ${rowCount} HS, ${cols.length} cột: ${cols.join(', ')}`);
-
-    for (let row = 0; row < rowCount; row++) {
-      for (const col of cols) {
-        if (subjectType === 'score')         await this.enterScoreCell(row, col);
-        else if (subjectType === 'dropdown') await this.enterDropdownCell(row, col);
-        else                                 await this.enterCommentCell(row, col);
-      }
-    }
-  }
-
   private async enterScoreCell(row: number, col: string): Promise<void> {
-    await this.listPage.clickCell(row, col);
-    await this.listPage.waitForElement(this.listPage.activeCellInput, TIMEOUTS.SHORT);
-    await this.listPage.activeCellInput.fill(String(randomScore()));
+    const cell = await this.listPage.getCell(row, col);
+    if (!cell) throw new Error(`Column "${col}" not found`);
+    await cell.click();
+    const input = cell.locator('input:not([type="hidden"])').first();
+    await this.listPage.waitForElement(input, TIMEOUTS.SHORT);
+    await input.fill(String(randomScore()));
     await this.page.keyboard.press('Tab');
     await this.page.waitForTimeout(150);
   }
@@ -161,11 +158,19 @@ export class SubjectGradebookScoreAndCommentActions {
   }
 
   private async enterCommentCell(row: number, col: string): Promise<void> {
-    const cell = await this.listPage.getCell(row, col);
+    const cell = await this.listPage.getCommentCell(row, col);
     if (!cell) return;
-    await cell.click();
+
+    const gridCommand = cell.locator('a.grid-command').first();
+    await gridCommand.scrollIntoViewIfNeeded();
+    await gridCommand.click();
     await this.page.waitForTimeout(300);
-    const textarea = cell.locator('textarea').first();
+
+    let textarea = cell.locator('textarea').first();
+    if (await textarea.count() === 0) {
+      textarea = this.page.locator('textarea').first();
+    }
+
     if (await textarea.count() > 0) {
       await textarea.fill('nx tốt');
       await this.page.keyboard.press('Tab');

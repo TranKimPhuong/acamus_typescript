@@ -11,7 +11,7 @@ export class SubjectGradebookScoreAndCommentPage extends BasePage {
 
     this.listGrid = page.locator('.dx-datagrid, .ant-table, [class*="grid"], [class*="table"]').first();
     this.courseInput = page.locator('dx-select-box input[aria-required="true"]').first();
-    this.scoreGrid = page.locator('.ant-table-body table').first();
+    this.scoreGrid = page.locator('table:has(td:not(.nz-disable-td) app-score-edit)').first();
   }
 
   // ── Dynamic locators ─────────────────────────────────────────────────────
@@ -53,14 +53,22 @@ export class SubjectGradebookScoreAndCommentPage extends BasePage {
     return this.page.locator('th:has(app-grid-header-container)');
   }
 
+  // colIndex = absolute index from headerThs()
   firstRowCellAt(colIndex: number): Locator {
-    return this.scoreGrid.locator('tbody tr').first().locator('td').nth(colIndex);
+    return this.scoreGrid
+      .locator('tbody tr.ant-table-row')
+      .nth(0)
+      .locator('td')
+      .nth(colIndex);
   }
 
   get activeCellInput(): Locator {
-    return this.scoreGrid.locator('tbody td input, tbody td .ant-input-number-input').first();
+    return this.scoreGrid
+      .locator('tbody td input:not([type="hidden"]), tbody td .ant-input-number-input')
+      .first();
   }
 
+  // Returns absolute index from headerThs() — aligns with td.nth(index) in main body table
   private async findColIndex(colCaption: string): Promise<number> {
     const ths = this.headerThs();
     const count = await ths.count();
@@ -75,7 +83,31 @@ export class SubjectGradebookScoreAndCommentPage extends BasePage {
   async getCell(rowIndex: number, colCaption: string): Promise<Locator | null> {
     const colIndex = await this.findColIndex(colCaption);
     if (colIndex < 0) return null;
-    return this.scoreGrid.locator('tbody tr').nth(rowIndex).locator('td').nth(colIndex);
+    return this.scoreGrid
+      .locator('tbody tr.ant-table-row')
+      .nth(rowIndex)
+      .locator('td')
+      .nth(colIndex);
+  }
+
+  // Comment columns in body have +1 offset vs header TH index (extra expand TD in main table)
+  async getCommentCell(rowIndex: number, colCaption: string): Promise<Locator | null> {
+    const colIndex = await this.findColIndex(colCaption);
+    if (colIndex < 0) return null;
+    return this.scoreGrid
+      .locator('tbody tr.ant-table-row')
+      .nth(rowIndex)
+      .locator('td')
+      .nth(colIndex + 1);
+  }
+
+  async getStudentNameAt(rowIndex: number): Promise<string> {
+    const nameCell = this.scoreGrid
+      .locator('tbody tr.ant-table-row')
+      .nth(rowIndex)
+      .locator('td')
+      .nth(1);
+    return (await nameCell.textContent() ?? '').trim();
   }
 
   async clickCell(rowIndex: number, colCaption: string): Promise<void> {
@@ -85,7 +117,7 @@ export class SubjectGradebookScoreAndCommentPage extends BasePage {
   }
 
   async getRowCount(): Promise<number> {
-    return this.scoreGrid.locator('tbody tr').count();
+    return this.scoreGrid.locator('tbody tr.ant-table-row').count();
   }
 
 }

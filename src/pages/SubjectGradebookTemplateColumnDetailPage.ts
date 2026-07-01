@@ -18,9 +18,10 @@ export class SubjectGradebookTemplateColumnDetailPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    // Adjust nếu trang dùng class khác — ưu tiên form hoặc container chính
-    this.detailForm = page.locator('form, [class*="detail"], [class*="update"]').first();
-    this.closeButton = page.locator('.footer.bg-white dx-button[aria-label="Close"]');
+    // Scope vào popup wrapper để tránh nhầm Close button sẵn có trên page nền
+    this.closeButton = page.locator('.dx-popup-wrapper dx-button[aria-label="Close"]');
+    // detailForm chờ popup content thực sự render — visible là đủ
+    this.detailForm = page.locator('.dx-popup-content form[name="form"]');
   }
 
   // ── Thông tin cơ bản ───────────────────────────────────────────────────────
@@ -31,7 +32,7 @@ export class SubjectGradebookTemplateColumnDetailPage extends BasePage {
    */
   codeValue(): Locator {
     return this.page
-      .locator('[formcontrolname="code"] input, input[id*="code"], input[name*="code"]')
+      .locator('.dx-popup-content input[name="code"]')
       .first();
   }
 
@@ -47,8 +48,8 @@ export class SubjectGradebookTemplateColumnDetailPage extends BasePage {
    */
   reportNameValue(): Locator {
     return this.page
-      .locator('.dx-popup-content')
-      .locator('input.dx-texteditor-input[name="reportName"]');
+      .locator('.dx-popup-content input.dx-texteditor-input[name="reportName"]')
+      .first();
   }
 
   /**
@@ -210,6 +211,59 @@ export class SubjectGradebookTemplateColumnDetailPage extends BasePage {
     return this.page.locator(
       'dx-tag-box[displayexpr="name"][valueexpr="id"] .dx-tag-container .dx-tag-content'
     );
+  }
+
+  calculatedItemTagBox(): Locator {
+    return this.page.locator('dx-tag-box[displayexpr="name"][valueexpr="id"]').first();
+  }
+
+  // Lấy count và visible names từ tagbox mà không cần mở dropdown
+  async calculatedItemSelectedInfo(): Promise<{ count: number; visibleNames: string[] }> {
+    return this.page.locator('dx-tag-box[displayexpr="name"][valueexpr="id"]').first().evaluate((el: any) => {
+      // Count: dùng DevExtreme value array (chứa tất cả ID được chọn, không bị ảnh hưởng bởi virtual scroll)
+      let count = 0;
+      try {
+        const instance = (window as any).DevExpress?.ui?.dxTagBox?.getInstance(el);
+        count = (instance?.option('value') ?? []).length;
+      } catch {}
+
+      // Fallback count: đếm từ DOM (tag riêng lẻ + số trong "N thêm")
+      if (count === 0) {
+        const individualCount = el.querySelectorAll('.dx-tag:not(.dx-tagbox-multi-tag)').length;
+        const multiTagText = el.querySelector('.dx-tagbox-multi-tag .dx-tag-content')?.textContent ?? '';
+        const multiCount = parseInt(multiTagText.match(/\d+/)?.[0] ?? '0');
+        count = individualCount + multiCount;
+      }
+
+      // Visible names: chỉ những tag hiện trong DOM (không gom vào "N thêm")
+      const visibleNames = Array.from(
+        el.querySelectorAll('.dx-tag:not(.dx-tagbox-multi-tag) .dx-tag-content')
+      ).map((t: any) => t.textContent?.trim() ?? '');
+
+      return { count, visibleNames };
+    });
+  }
+
+  // Click mở dropdown, đọc tất cả item được check, đóng lại
+  async calculatedItemSelectedNames(): Promise<string[]> {
+    const tagBox = this.page.locator('dx-tag-box[displayexpr="name"][valueexpr="id"]').first();
+
+    // Click vào input bên trong tagbox để mở dropdown
+    const input = tagBox.locator('input.dx-texteditor-input').first();
+    await input.click({ force: true });
+    await this.page.waitForTimeout(600);
+
+    // Thử 2 selector: item selected hoặc item checked (tùy DevExtreme config)
+    const selectedLocator = this.page.locator(
+      '.dx-list-item.dx-list-item-selected .dx-item-content, ' +
+      '.dx-list-item:has(.dx-checkbox-checked) .dx-item-content'
+    );
+
+    await selectedLocator.first().waitFor({ state: 'visible', timeout: 8000 });
+    const names = await selectedLocator.allTextContents();
+
+    await this.page.keyboard.press('Escape');
+    return names.map(t => t.trim()).filter(t => t.length > 0);
   }
 
   /**

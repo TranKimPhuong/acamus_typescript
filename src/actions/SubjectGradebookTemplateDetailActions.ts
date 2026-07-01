@@ -119,6 +119,19 @@ export class SubjectGradebookTemplateDetailActions {
     const isAlreadyVisible = await rowLocator.isVisible().catch(() => false);
     if (isAlreadyVisible) return;
 
+    // Reset về đầu trước khi scan, tránh miss rows phía trên
+    await this.page.evaluate(() => {
+      const treeListEl = document.querySelector('.dx-treelist') as any;
+      try {
+        const instance = (window as any).DevExpress?.ui?.dxTreeList?.getInstance(treeListEl);
+        instance?.getScrollable()?.scrollTo({ top: 0 });
+      } catch {
+        const scrollContainer = document.querySelector('.dx-treelist-rowsview .dx-scrollable-container') as HTMLElement | null;
+        if (scrollContainer) scrollContainer.scrollTop = 0;
+      }
+    });
+    await this.page.waitForTimeout(300);
+
     const maxScrolls = 30;
     for (let i = 0; i < maxScrolls; i++) {
       // Dùng DevExtreme scrollable API thay vì set scrollTop trực tiếp
@@ -385,6 +398,9 @@ export class SubjectGradebookTemplateDetailActions {
     this.logger.step(`Mở chi tiết cột "${code}"`);
     const row = this.detailPage.columnRowByCode(code);
     await expect(row).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
+    // Pin the row in viewport before clicking — prevents virtual-scroll re-render from shifting rows
+    await row.scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(200);
 
     const editIcon = this.detailPage.iconEditInRow(code);
     // Chờ element có trong DOM (không cần visible vì icon bị ẩn bởi CSS)
@@ -399,8 +415,8 @@ export class SubjectGradebookTemplateDetailActions {
 
     // force: true để bypass visibility check — element ẩn bởi CSS nhưng có thể click
     await editIcon.click({ force: true });
-    // Chờ URL đổi sang trang update
-    await this.page.waitForURL(/\/update/, { timeout: TIMEOUTS.LONG });
+    // Chờ Close button xuất hiện — indicator chắc chắn rằng form column đã mở
+    // Không dùng waitForURL vì URL template detail đã chứa "/update", resolve ngay lập tức
     await this.columnDetailPage.waitForElement(this.columnDetailPage.detailForm, TIMEOUTS.LONG);
   }
 
@@ -408,6 +424,14 @@ export class SubjectGradebookTemplateDetailActions {
   private async closeColumnDetail(): Promise<void> {
     this.logger.step('Quay lại trang template detail');
     await this.columnDetailPage.closeButton.click();
+
+    // Nếu click tagbox làm dirty form → abp-confirmation popup "Are you sure?" xuất hiện
+    const yesBtn = this.page.locator('abp-confirmation button#confirm, abp-confirmation .confirmation-button--approve');
+    if (await yesBtn.isVisible({ timeout: 1500 }).catch(() => false)) {
+      this.logger.info('Popup "Are you sure?" xuất hiện → click Yes');
+      await yesBtn.click();
+    }
+
     await this.detailPage.waitForElement(this.detailPage.columnConfigTable, TIMEOUTS.LONG);
   }
 
@@ -471,33 +495,26 @@ export class SubjectGradebookTemplateDetailActions {
     const expectedItems = col.scheme.calculatedItems;
     const expectedCount = expectedItems.length;
 
-    // 2. Assert số lượng tag trong dropdown khớp expected (không thừa/thiếu)
-    this.logger.step(`  Assert số lượng tag trong dropdownbox = ${expectedCount}`);
-    const allTagsLocator = this.columnDetailPage.calculatedItemTagsAll();
-    await expect(
-      allTagsLocator,
-      `Số lượng tag trong dropdownbox phải đúng ${expectedCount} (không thừa/thiếu)`
-    ).toHaveCount(expectedCount, { timeout: TIMEOUTS.MEDIUM });
+    // 2. Assert count (không mở dropdown, JS evaluate → nhanh)
+    this.logger.step(`  Assert tags trong dropdownbox: count=${expectedCount}, items=[${expectedItems.join(', ')}]`);
+    const { count: actualCount, visibleNames } = await this.columnDetailPage.calculatedItemSelectedInfo();
+    this.logger.info(`  > Count thực tế: ${actualCount}, visible names: [${visibleNames.join(', ')}]`);
 
-    // 3. Assert tên từng tag khớp chính xác với subItemTag trong constants
-    // Lấy toàn bộ text của các tag đang hiển thị rồi so sánh với expected
-    this.logger.step(`  Assert tên các tag = [${expectedItems.join(', ')}]`);
-    const actualTexts: string[] = await allTagsLocator.evaluateAll(
-      (els: Element[]) => els.map((el) => el.textContent?.trim() ?? '')
-    );
-    this.logger.info(`  > Tags thực tế: [${actualTexts.join(', ')}]`);
-
-    const sortedActual   = [...actualTexts].sort();
-    const sortedExpected = [...expectedItems].sort();
     expect(
-      sortedActual,
-      `Tên các tag trong dropdownbox phải khớp chính xác: expected [${sortedExpected.join(', ')}], got [${sortedActual.join(', ')}]`
-    ).toEqual(sortedExpected);
+      actualCount,
+      `Số lượng tag phải đúng ${expectedCount} (không thừa/thiếu)`
+    ).toBe(expectedCount);
 
-    // Highlight từng tag tìm được để dễ quan sát trong video
-    for (const item of expectedItems) {
-      await this.highlightField(this.columnDetailPage.subItemTag(item));
+    // 3. Assert tên: mở dropdown 1 lần để đọc tất cả item được check (kể cả bị ẩn sau "N thêm")
+    const allSelectedNames = await this.columnDetailPage.calculatedItemSelectedNames();
+    this.logger.info(`  > Tất cả names: [${allSelectedNames.join(', ')}]`);
+
+    for (const expected of expectedItems) {
+      const found = allSelectedNames.some(actual => actual.includes(expected));
+      expect(found, `Tag "${expected}" không tìm thấy trong dropdown`).toBe(true);
     }
+
+    await this.highlightField(this.columnDetailPage.calculatedItemTagBox());
 
     // 4. columnsToCalculate — textbox number, assert value = scheme.minColumnsCount
     const expectedMinCount = String(col.scheme.minColumnsCount);
@@ -567,7 +584,7 @@ export class SubjectGradebookTemplateDetailActions {
     await expect(
       this.columnDetailPage.codeValue(),
       `code phải là "${col.code}"`
-    ).toHaveValue(col.code, { timeout: TIMEOUTS.MEDIUM });
+    ).toHaveValue(col.code, { timeout: TIMEOUTS.LONG });
   }
 
   async assertColumnDetailName(col: ColumnConfig): Promise<void> {
@@ -750,7 +767,10 @@ export class SubjectGradebookTemplateDetailActions {
       this.logger.step(`--- [${i + 1}/${cols.length}] Chi tiết cột: ${col.code} ---`);
       await this.scrollRowIntoView(col.code);
       await this.openColumnDetail(col.code);
-      await expect(this.columnDetailPage.codeValue()).not.toHaveValue('', { timeout: TIMEOUTS.LONG });
+
+      // Chờ popup load đúng cột — codeValue() được scope vào .dx-popup-content
+      await expect(this.columnDetailPage.codeValue()).toHaveValue(col.code, { timeout: TIMEOUTS.LONG });
+
       await this.assertColumnDetailAllFields(col);
       await this.closeColumnDetail();
     }

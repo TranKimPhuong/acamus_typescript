@@ -37,10 +37,7 @@ test.describe('Subject Score Gradebook - Điểm nhận xét môn học (12A1_au
     // Bước 5: Kiểm tra danh sách học sinh hiện ra
     await sgscActions.assertStudentListVisible();
 
-    // Bước 6: Kiểm tra môn học thuộc loại nhập điểm hay nhận xét
-    const subjectType = await sgscActions.detectSubjectTypeFromGrid();
-
-    // Bước 7: Nhập điểm/nhận xét tùy theo loại môn học
-    await sgscActions.enterScoresByType(subjectType);
+    // Bước 6: Nhập điểm/nhận xét theo type của từng cột
+    await sgscActions.enterScoresByColumnType();
   });
 });
