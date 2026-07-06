@@ -10,7 +10,7 @@ import {
 import { homepageURL, LOGIN_MESSAGES } from '../src/constants/LoginConstants';
 import { LogoutActions } from '@actions/LogoutActions';
 
-test.describe('Login Module', () => {
+test.describe('Login Module', { tag: '@login' }, () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto('/');

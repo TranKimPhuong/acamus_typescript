@@ -14,7 +14,7 @@ async function loginAndSelectContext(page: any) {
   await topBarActions.selectCampusAndSchoolYear(CAMPUS.NAME, SCHOOL_YEAR.NAME);
 }
 
-test.describe('Class - Danh sách lớp học', () => {
+test.describe('Class - Danh sách lớp học', { tag: '@class' }, () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto('/');

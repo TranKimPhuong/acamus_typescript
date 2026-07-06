@@ -21,7 +21,7 @@ async function loginAndNavigate(page: any) {
 const COURSES_PER_TEST = 2;
 const TEST_COUNT = 10;
 
-test.describe.serial('Subject Score Gradebook - TH (4A1_auto)', () => {
+test.describe.serial('Subject Score Gradebook - TH (4A1_auto)', { tag: ['@score-by-course', '@th'] }, () => {
   test.setTimeout(300_000);
 
   let courses: string[] = [];
@@ -66,7 +66,7 @@ test.describe.serial('Subject Score Gradebook - TH (4A1_auto)', () => {
   }
 });
 
-test.describe.serial('Subject Score Gradebook - THCS (12A1_auto)', () => {
+test.describe.serial('Subject Score Gradebook - THCS (12A1_auto)', { tag: ['@score-by-course', '@thcs'] }, () => {
   test.setTimeout(300_000);
 
   let courses: string[] = [];

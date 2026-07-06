@@ -24,6 +24,49 @@ npx playwright install chromium
 | `npm run test:report` | Mở HTML report sau khi đã chạy xong |
 | `npm run lint` | Kiểm tra TypeScript type errors |
 
+## Bật/tắt test case theo tag
+
+Mỗi `test()`/`test.describe()` được gắn tag (vd `@login`, `@th`, `@thcs`, `@number`, `@letter`) để chọn chạy đúng nhóm test mong muốn mà không cần sửa file:
+
+> ⚠️ Luôn để tag trong dấu ngoặc kép `"..."`. Trên PowerShell, viết `@login` không có dấu ngoặc sẽ bị hiểu là toán tử **splat** (`@tênBiến`) thay vì chuỗi literal — do biến không tồn tại, PowerShell sẽ splat ra rỗng khiến `--grep` báo thiếu tham số.
+
+```bash
+# Chạy 1 tag
+npx playwright test --grep "@login"
+
+# Chạy nhiều tag (OR) — test khớp 1 trong các tag
+npx playwright test --grep "@th|@thcs"
+
+# Chạy giao của nhiều tag (AND) — test phải có cả 2 tag
+npx playwright test --grep "(?=.*@formula-check)(?=.*@letter)"
+
+# Bỏ qua 1 tag
+npx playwright test --grep-invert "@score-by-course"
+
+# Dùng script có sẵn (đưa tag vào sau --)
+npm run test:tag -- "@formula-check"
+npm run test:tag:skip -- "@score-by-course"
+```
+
+Danh sách tag hiện có:
+
+| Tag | Ý nghĩa |
+|-----|---------|
+| `@login` | Test login |
+| `@class` | Test danh sách lớp học |
+| `@gradebook-template` | Test sổ điểm mẫu |
+| `@gradebook-list` | Test danh sách sổ điểm môn học |
+| `@score-by-course` | Test nhập điểm theo từng course |
+| `@formula-check` | Test kiểm tra công thức tính HK1/HK2/CN |
+| `@th` / `@thcs` | Nhập điểm cho lớp thuộc Bậc Tiểu học / THCS-THPT |
+| `@number` / `@letter` | Môn tính điểm số / điểm chữ |
+
+Khi thêm test mới, gắn tag qua tham số thứ 2 của `test()`/`test.describe()`:
+
+```ts
+test('TC_XXX - ...', { tag: ['@module', '@th'] }, async ({ page }) => { ... });
+```
+
 ## Môi trường test
 
 | Môi trường | URL |

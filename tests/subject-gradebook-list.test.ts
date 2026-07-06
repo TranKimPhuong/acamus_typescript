@@ -13,7 +13,7 @@ async function loginAndSelectContext(page: any) {
   await topBarActions.selectCampusAndSchoolYear(CAMPUS.NAME, SCHOOL_YEAR.NAME);
 }
 
-test.describe('SubjectGradebookList - Danh sách sổ điểm môn học', () => {
+test.describe('SubjectGradebookList - Danh sách sổ điểm môn học', { tag: '@gradebook-list' }, () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
