@@ -7,7 +7,7 @@ import { VALID_USER } from '../src/data/LoginData';
 import { CAMPUS, SCHOOL_YEAR } from '../src/constants/TopBarConstants';
 import { TEST_CLASS_TH } from '../src/data/ClassData';
 import { TEST_CLASS_THCS } from '../src/data/ClassData';
-import { NO_GRADEBOOK_SUBJECTS } from '../src/constants/ClassConstants';
+import { NO_GRADEBOOK_SUBJECTS } from '../src/constants/SubjectGradebookListConstants';
 
 async function loginAndNavigate(page: any) {
   const loginActions = new LoginActions(page);

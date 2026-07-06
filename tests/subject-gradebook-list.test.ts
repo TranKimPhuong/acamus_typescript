@@ -4,7 +4,7 @@ import { TopBarActions } from '../src/actions/TopBarActions';
 import { SubjectGradebookListActions } from '../src/actions/SubjectGradebookListActions';
 import { VALID_USER } from '../src/data/LoginData';
 import { CAMPUS, SCHOOL_YEAR } from '../src/constants/TopBarConstants';
-import { TEST_CLASS } from '../src/constants/ClassConstants';
+import { TEST_CLASS_THCS } from '../src/data/ClassData';
 
 async function loginAndSelectContext(page: any) {
   const loginActions = new LoginActions(page);
@@ -19,7 +19,7 @@ test.describe('SubjectGradebookList - Danh sách sổ điểm môn học', () =>
     await page.goto('/');
   });
 
-  test(`TC_SSG_PRE_003 - Kiểm tra sổ điểm mẫu "${TEST_CLASS.GRADE_BLOCK}" đã được thêm`, async ({ page }) => {
+  test(`TC_SSG- Kiểm tra chương trình "${TEST_CLASS_THCS.LEARNING_PROGRAM}" đã thêm sổ điểm mẫu cho các course`, async ({ page }) => {
     await loginAndSelectContext(page);
 
     const actions = new SubjectGradebookListActions(page);
@@ -28,15 +28,15 @@ test.describe('SubjectGradebookList - Danh sách sổ điểm môn học', () =>
     await actions.navigateToGradingBookViewsList();
 
     // Bước 3: tìm tên chương trình = Khối 12 - Ban tự nhiên
-    const found = await actions.searchProgram(TEST_CLASS.GRADE_BLOCK);
+    const found = await actions.searchProgram(TEST_CLASS_THCS.LEARNING_PROGRAM);
 
     // Nếu không lọc thấy data thì skip test case
     if (!found) {
-      test.skip(true, `Không tìm thấy chương trình "${TEST_CLASS.GRADE_BLOCK}" → skip`);
+      test.skip(true, `Không tìm thấy chương trình "${TEST_CLASS_THCS.LEARNING_PROGRAM}" → skip`);
       return;
     }
 
-    // Bước 4-5: đi qua từng môn học, kiểm tra sổ điểm mẫu đúng hay chưa
+    // Bước 4-5: đi qua từng môn học, kiểm tra sổ điểm mẫu cho từng môn đúng hay chưa
     await actions.verifyAllSubjectGradebookTemplates();
   });
 });
