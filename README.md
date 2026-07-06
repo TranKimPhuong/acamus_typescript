@@ -65,25 +65,6 @@ Test file → Actions → Pages → BasePage
 - **Actions**: gom nhiều bước lại thành một hành động nghiệp vụ có ý nghĩa
 - **Constants**: tập trung locators và giá trị cố định, dễ bảo trì khi UI thay đổi
 
-## Danh sách test hiện có
-
-### `login.test.ts`
-- Valid login
-- Invalid credentials (sai username, sai password)
-- Empty fields
-- Special characters / SQL injection / XSS
-
-### `grading-book-template.test.ts` — Sổ điểm mẫu (Subject Grading Book Templates)
-
-| Test Case | Mô tả |
-|-----------|-------|
-| TC_SGBT_001 | Danh sách hiển thị đủ 4 sổ điểm mẫu do hệ thống tạo |
-| TC_SGBT_002 | Sổ điểm `TH_MOET_DGDK_MUCDATDUOC` tồn tại |
-| TC_SGBT_003 | Sổ điểm `TH_MOET_MUCDATDUOC` tồn tại |
-| TC_SGBT_004 | Sổ điểm `THCS_THPT_MOET_DGBD` tồn tại |
-| TC_SGBT_005 | Sổ điểm `THCS_THPT_MOET_DGNX` tồn tại |
-| TC_SGBT_006 | Kiểm tra default values của `TH_MOET_DGDK_MUCDATDUOC` |
-
 ## Reports
 
 Sau khi chạy test, reports được sinh tự động tại thư mục `reports/`:

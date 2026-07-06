@@ -19,7 +19,7 @@ export const LOGIN_LABELS = {
 } as const;
 
 export const TIMEOUTS = {
-  SHORT: 5_000,
+  SHORT: 7_000,
   MEDIUM: 15_000,
   LONG: 30_000,
 } as const;

@@ -1,9 +1,29 @@
 # Dependencies
 node_modules/
 
-# Test reports
-reports/
-
-# Playwright artifacts
+# Playwright output
 test-results/
 playwright-report/
+reports/html/data/
+
+# Build output
+dist/
+
+# Environment
+.env
+.env.*
+
+# Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code
+.claude/
+CLAUDE.md
+
+# Misc
+*.csv

@@ -5,6 +5,8 @@
   "scripts": {
     "test": "npx playwright test",
     "test:login": "npx playwright test tests/login.test.ts",
+    "test:score-gradebook": "npx playwright test tests/subject-score-gradebook-by-course.test.ts",
+    "test:score-gradebook:headed": "npx playwright test tests/subject-score-gradebook-by-course.test.ts --headed",
     "test:headed": "npx playwright test --headed",
     "test:report": "npx playwright show-report reports/html",
     "lint": "npx tsc --noEmit"

@@ -1,0 +1,200 @@
+<testsuites id="" name="" tests="1" failures="0" skipped="0" errors="0" time="74.04926000000164">
+<testsuite name="grading-book-template.test.ts" timestamp="2026-06-18T09:38:24.532Z" hostname="chromium" tests="1" failures="0" skipped="0" time="63.467" errors="0">
+<testcase name="Sổ điểm mẫu - Subject Grading Book Templates › TC_SGBT_012 - Kiểm tra default values của sổ điểm THCS_THPT_MOET_DGNX" classname="grading-book-template.test.ts" time="63.467">
+<system-out>
+<![CDATA[[2026-06-18T09:38:33.279Z] [STEP] [LoginActions] >> Login with user: phuong.tran
+[2026-06-18T09:38:33.281Z] [STEP] [LoginActions] >> Navigate to login page
+[2026-06-18T09:38:45.827Z] [STEP] [LoginActions] >> Enter username: phuong.tran
+[2026-06-18T09:38:46.557Z] [STEP] [LoginActions] >> Enter password: ****
+[2026-06-18T09:38:46.683Z] [STEP] [LoginActions] >> Click login button
+[2026-06-18T09:38:49.014Z] [STEP] [LoginActions] >> Wait for dashboard to load after login
+[2026-06-18T09:38:51.691Z] [STEP] [DashboardActions] >> Select campus: Phuong_test
+[2026-06-18T09:38:57.805Z] [STEP] [DashboardActions] >> Select school year: 2026-2027
+[2026-06-18T09:39:04.104Z] [STEP] [SubjectGradingBookTemplateActions] >> Qua menu chọn Sổ điểm
+[2026-06-18T09:39:04.363Z] [STEP] [SubjectGradingBookTemplateActions] >> Chọn menu con Cơ chế chấm điểm
+[2026-06-18T09:39:04.733Z] [STEP] [SubjectGradingBookTemplateActions] >> Chọn Sổ điểm mẫu
+[2026-06-18T09:39:05.244Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Chọn sổ điểm mẫu có mã "THCS_THPT_MOET_DGNX" từ danh sách
+[2026-06-18T09:39:09.236Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert tổng số cột = 22
+[2026-06-18T09:39:12.266Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột điểm tổng kết = "CN" (dòng tồn tại trong bảng)
+[2026-06-18T09:39:13.207Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert tất cả cấu hình cột
+[2026-06-18T09:39:13.207Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [1/22] Kiểm tra dòng: CN ---
+[2026-06-18T09:39:13.517Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CN" - row visible
+[2026-06-18T09:39:13.578Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CN" - tên = "Cuối năm"
+[2026-06-18T09:39:13.644Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CN" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:13.707Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CN" - thuộc học kỳ = "empty"
+[2026-06-18T09:39:13.773Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CN" - loại chấm điểm = "Calculation"
+[2026-06-18T09:39:13.833Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CN" - trọng số = "0"
+[2026-06-18T09:39:13.888Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CN" - số thứ tự = empty
+[2026-06-18T09:39:13.959Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [2/22] Kiểm tra dòng: HK1 ---
+[2026-06-18T09:39:14.284Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "HK1" - row visible
+[2026-06-18T09:39:14.344Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "HK1" - tên = "Học kỳ 1"
+[2026-06-18T09:39:14.405Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "HK1" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:14.468Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "HK1" - thuộc học kỳ = "HK1"
+[2026-06-18T09:39:14.535Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "HK1" - loại chấm điểm = "Calculation"
+[2026-06-18T09:39:14.607Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "HK1" - trọng số = "1"
+[2026-06-18T09:39:14.675Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "HK1" - số thứ tự = empty
+[2026-06-18T09:39:14.748Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [3/22] Kiểm tra dòng: TX1-HK1 ---
+[2026-06-18T09:39:15.069Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX1-HK1" - row visible
+[2026-06-18T09:39:15.134Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX1-HK1" - tên = "TX1"
+[2026-06-18T09:39:15.195Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX1-HK1" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:15.246Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX1-HK1" - thuộc học kỳ = "HK1"
+[2026-06-18T09:39:15.305Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX1-HK1" - loại chấm điểm = "Normal"
+[2026-06-18T09:39:15.363Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX1-HK1" - trọng số = "1"
+[2026-06-18T09:39:15.422Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX1-HK1" - số thứ tự = empty
+[2026-06-18T09:39:15.472Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [4/22] Kiểm tra dòng: TX2-HK1 ---
+[2026-06-18T09:39:15.776Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX2-HK1" - row visible
+[2026-06-18T09:39:15.841Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX2-HK1" - tên = "TX2"
+[2026-06-18T09:39:15.900Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX2-HK1" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:15.959Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX2-HK1" - thuộc học kỳ = "HK1"
+[2026-06-18T09:39:16.023Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX2-HK1" - loại chấm điểm = "Normal"
+[2026-06-18T09:39:16.086Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX2-HK1" - trọng số = "1"
+[2026-06-18T09:39:16.148Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX2-HK1" - số thứ tự = empty
+[2026-06-18T09:39:16.210Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [5/22] Kiểm tra dòng: TX3-HK1 ---
+[2026-06-18T09:39:16.532Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX3-HK1" - row visible
+[2026-06-18T09:39:16.595Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX3-HK1" - tên = "TX3"
+[2026-06-18T09:39:16.668Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX3-HK1" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:16.735Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX3-HK1" - thuộc học kỳ = "HK1"
+[2026-06-18T09:39:16.798Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX3-HK1" - loại chấm điểm = "Normal"
+[2026-06-18T09:39:16.858Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX3-HK1" - trọng số = "1"
+[2026-06-18T09:39:16.920Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX3-HK1" - số thứ tự = empty
+[2026-06-18T09:39:16.973Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [6/22] Kiểm tra dòng: TX4-HK1 ---
+[2026-06-18T09:39:17.295Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX4-HK1" - row visible
+[2026-06-18T09:39:17.355Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX4-HK1" - tên = "TX4"
+[2026-06-18T09:39:17.412Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX4-HK1" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:17.472Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX4-HK1" - thuộc học kỳ = "HK1"
+[2026-06-18T09:39:17.525Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX4-HK1" - loại chấm điểm = "Normal"
+[2026-06-18T09:39:17.578Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX4-HK1" - trọng số = "1"
+[2026-06-18T09:39:17.627Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX4-HK1" - số thứ tự = empty
+[2026-06-18T09:39:17.676Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [7/22] Kiểm tra dòng: TX5-HK1 ---
+[2026-06-18T09:39:17.975Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX5-HK1" - row visible
+[2026-06-18T09:39:18.049Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX5-HK1" - tên = "TX5"
+[2026-06-18T09:39:18.121Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX5-HK1" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:18.185Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX5-HK1" - thuộc học kỳ = "HK1"
+[2026-06-18T09:39:18.233Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX5-HK1" - loại chấm điểm = "Normal"
+[2026-06-18T09:39:18.285Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX5-HK1" - trọng số = "1"
+[2026-06-18T09:39:18.336Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX5-HK1" - số thứ tự = empty
+[2026-06-18T09:39:18.384Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [8/22] Kiểm tra dòng: GK-HK1 ---
+[2026-06-18T09:39:18.696Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "GK-HK1" - row visible
+[2026-06-18T09:39:18.747Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "GK-HK1" - tên = "Giữa kỳ"
+[2026-06-18T09:39:18.808Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "GK-HK1" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:18.858Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "GK-HK1" - thuộc học kỳ = "HK1"
+[2026-06-18T09:39:18.915Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "GK-HK1" - loại chấm điểm = "Normal"
+[2026-06-18T09:39:18.976Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "GK-HK1" - trọng số = "1"
+[2026-06-18T09:39:19.033Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "GK-HK1" - số thứ tự = empty
+[2026-06-18T09:39:19.095Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [9/22] Kiểm tra dòng: NXGK1 ---
+[2026-06-18T09:39:19.382Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXGK1" - row visible
+[2026-06-18T09:39:19.431Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXGK1" - tên = "Nhận xét giữa kì 1"
+[2026-06-18T09:39:19.486Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXGK1" - cơ chế chấm điểm = "empty"
+[2026-06-18T09:39:19.555Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXGK1" - thuộc học kỳ = "HK1"
+[2026-06-18T09:39:19.622Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXGK1" - loại chấm điểm = "Comment"
+[2026-06-18T09:39:19.681Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXGK1" - trọng số = "empty"
+[2026-06-18T09:39:19.733Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXGK1" - số thứ tự = empty
+[2026-06-18T09:39:19.783Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [10/22] Kiểm tra dòng: CK-HK1 ---
+[2026-06-18T09:39:20.093Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CK-HK1" - row visible
+[2026-06-18T09:39:20.159Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CK-HK1" - tên = "Cuối kỳ"
+[2026-06-18T09:39:20.225Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CK-HK1" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:20.281Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CK-HK1" - thuộc học kỳ = "HK1"
+[2026-06-18T09:39:20.335Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CK-HK1" - loại chấm điểm = "Normal"
+[2026-06-18T09:39:20.394Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CK-HK1" - trọng số = "1"
+[2026-06-18T09:39:20.447Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CK-HK1" - số thứ tự = empty
+[2026-06-18T09:39:20.502Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [11/22] Kiểm tra dòng: NXCK1 ---
+[2026-06-18T09:39:22.519Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXCK1" - row visible
+[2026-06-18T09:39:22.578Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXCK1" - tên = "Nhận xét cuối kì 1"
+[2026-06-18T09:39:22.646Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXCK1" - cơ chế chấm điểm = "empty"
+[2026-06-18T09:39:22.701Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXCK1" - thuộc học kỳ = "HK1"
+[2026-06-18T09:39:22.751Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXCK1" - loại chấm điểm = "Comment"
+[2026-06-18T09:39:22.802Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXCK1" - trọng số = "empty"
+[2026-06-18T09:39:22.856Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXCK1" - số thứ tự = empty
+[2026-06-18T09:39:22.917Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [12/22] Kiểm tra dòng: HK2 ---
+[2026-06-18T09:39:23.237Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "HK2" - row visible
+[2026-06-18T09:39:23.286Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "HK2" - tên = "Học kỳ 2"
+[2026-06-18T09:39:23.337Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "HK2" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:23.397Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "HK2" - thuộc học kỳ = "HK2"
+[2026-06-18T09:39:23.493Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "HK2" - loại chấm điểm = "Calculation"
+[2026-06-18T09:39:23.569Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "HK2" - trọng số = "1"
+[2026-06-18T09:39:23.655Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "HK2" - số thứ tự = empty
+[2026-06-18T09:39:23.723Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [13/22] Kiểm tra dòng: TX1-HK2 ---
+[2026-06-18T09:39:24.035Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX1-HK2" - row visible
+[2026-06-18T09:39:24.084Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX1-HK2" - tên = "TX1"
+[2026-06-18T09:39:24.135Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX1-HK2" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:24.193Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX1-HK2" - thuộc học kỳ = "HK2"
+[2026-06-18T09:39:24.251Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX1-HK2" - loại chấm điểm = "Normal"
+[2026-06-18T09:39:24.312Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX1-HK2" - trọng số = "1"
+[2026-06-18T09:39:24.365Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX1-HK2" - số thứ tự = empty
+[2026-06-18T09:39:24.419Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [14/22] Kiểm tra dòng: TX2-HK2 ---
+[2026-06-18T09:39:24.724Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX2-HK2" - row visible
+[2026-06-18T09:39:24.782Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX2-HK2" - tên = "TX2"
+[2026-06-18T09:39:24.837Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX2-HK2" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:24.886Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX2-HK2" - thuộc học kỳ = "HK2"
+[2026-06-18T09:39:24.936Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX2-HK2" - loại chấm điểm = "Normal"
+[2026-06-18T09:39:24.975Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX2-HK2" - trọng số = "1"
+[2026-06-18T09:39:25.024Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX2-HK2" - số thứ tự = empty
+[2026-06-18T09:39:25.082Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [15/22] Kiểm tra dòng: TX3-HK2 ---
+[2026-06-18T09:39:25.393Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX3-HK2" - row visible
+[2026-06-18T09:39:25.442Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX3-HK2" - tên = "TX3"
+[2026-06-18T09:39:25.493Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX3-HK2" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:25.544Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX3-HK2" - thuộc học kỳ = "HK2"
+[2026-06-18T09:39:25.598Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX3-HK2" - loại chấm điểm = "Normal"
+[2026-06-18T09:39:25.644Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX3-HK2" - trọng số = "1"
+[2026-06-18T09:39:25.693Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX3-HK2" - số thứ tự = empty
+[2026-06-18T09:39:25.748Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [16/22] Kiểm tra dòng: TX4-HK2 ---
+[2026-06-18T09:39:26.059Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX4-HK2" - row visible
+[2026-06-18T09:39:26.125Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX4-HK2" - tên = "TX4"
+[2026-06-18T09:39:26.187Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX4-HK2" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:26.248Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX4-HK2" - thuộc học kỳ = "HK2"
+[2026-06-18T09:39:26.309Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX4-HK2" - loại chấm điểm = "Normal"
+[2026-06-18T09:39:26.368Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX4-HK2" - trọng số = "1"
+[2026-06-18T09:39:26.418Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX4-HK2" - số thứ tự = empty
+[2026-06-18T09:39:26.468Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [17/22] Kiểm tra dòng: TX5-HK2 ---
+[2026-06-18T09:39:26.780Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX5-HK2" - row visible
+[2026-06-18T09:39:26.838Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX5-HK2" - tên = "TX5"
+[2026-06-18T09:39:26.898Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX5-HK2" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:26.957Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX5-HK2" - thuộc học kỳ = "HK2"
+[2026-06-18T09:39:27.015Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX5-HK2" - loại chấm điểm = "Normal"
+[2026-06-18T09:39:27.073Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX5-HK2" - trọng số = "1"
+[2026-06-18T09:39:27.126Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TX5-HK2" - số thứ tự = empty
+[2026-06-18T09:39:27.183Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [18/22] Kiểm tra dòng: GK-HK2 ---
+[2026-06-18T09:39:27.488Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "GK-HK2" - row visible
+[2026-06-18T09:39:27.539Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "GK-HK2" - tên = "Giữa kỳ"
+[2026-06-18T09:39:27.589Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "GK-HK2" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:27.636Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "GK-HK2" - thuộc học kỳ = "HK2"
+[2026-06-18T09:39:27.687Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "GK-HK2" - loại chấm điểm = "Normal"
+[2026-06-18T09:39:27.752Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "GK-HK2" - trọng số = "1"
+[2026-06-18T09:39:27.817Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "GK-HK2" - số thứ tự = empty
+[2026-06-18T09:39:27.882Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [19/22] Kiểm tra dòng: NXGK2 ---
+[2026-06-18T09:39:28.194Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXGK2" - row visible
+[2026-06-18T09:39:28.242Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXGK2" - tên = "Nhận xét giữa kì 2"
+[2026-06-18T09:39:28.289Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXGK2" - cơ chế chấm điểm = "empty"
+[2026-06-18T09:39:28.341Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXGK2" - thuộc học kỳ = "HK2"
+[2026-06-18T09:39:28.394Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXGK2" - loại chấm điểm = "Comment"
+[2026-06-18T09:39:28.444Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXGK2" - trọng số = "empty"
+[2026-06-18T09:39:28.509Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXGK2" - số thứ tự = empty
+[2026-06-18T09:39:28.571Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [20/22] Kiểm tra dòng: CK-HK2 ---
+[2026-06-18T09:39:28.878Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CK-HK2" - row visible
+[2026-06-18T09:39:28.936Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CK-HK2" - tên = "Cuối kỳ"
+[2026-06-18T09:39:28.989Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CK-HK2" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:29.047Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CK-HK2" - thuộc học kỳ = "HK2"
+[2026-06-18T09:39:29.107Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CK-HK2" - loại chấm điểm = "Normal"
+[2026-06-18T09:39:29.170Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CK-HK2" - trọng số = "1"
+[2026-06-18T09:39:29.228Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "CK-HK2" - số thứ tự = empty
+[2026-06-18T09:39:29.296Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [21/22] Kiểm tra dòng: NXCK2 ---
+[2026-06-18T09:39:29.611Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXCK2" - row visible
+[2026-06-18T09:39:29.672Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXCK2" - tên = "Nhận xét cuối kì 2"
+[2026-06-18T09:39:29.725Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXCK2" - cơ chế chấm điểm = "empty"
+[2026-06-18T09:39:29.778Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXCK2" - thuộc học kỳ = "HK2"
+[2026-06-18T09:39:29.846Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXCK2" - loại chấm điểm = "Comment"
+[2026-06-18T09:39:29.907Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXCK2" - trọng số = "empty"
+[2026-06-18T09:39:29.968Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "NXCK2" - số thứ tự = empty
+[2026-06-18T09:39:30.019Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> --- [22/22] Kiểm tra dòng: TL ---
+[2026-06-18T09:39:32.616Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TL" - row visible
+[2026-06-18T09:39:32.672Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TL" - tên = "Thi lại"
+[2026-06-18T09:39:32.729Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TL" - cơ chế chấm điểm = "THCS- THPT Đánh giá môn học bằng nhận xét"
+[2026-06-18T09:39:32.788Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TL" - thuộc học kỳ = "empty"
+[2026-06-18T09:39:32.847Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TL" - loại chấm điểm = "Normal"
+[2026-06-18T09:39:32.897Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TL" - trọng số = "0"
+[2026-06-18T09:39:32.959Z] [STEP] [SubjectGradingBookTemplateDetailActions] >> Assert cột "TL" - số thứ tự = empty
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>
