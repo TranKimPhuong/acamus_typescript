@@ -7,7 +7,7 @@ import { VALID_USER } from '../src/data/LoginData';
 import { CAMPUS, SCHOOL_YEAR } from '../src/constants/TopBarConstants';
 import { TEST_CLASS_TH } from '../src/data/ClassData';
 import { TEST_CLASS_THCS } from '../src/data/ClassData';
-import { NO_GRADEBOOK_SUBJECTS } from '../src/constants/ClassConstants';
+import { NO_GRADEBOOK_SUBJECTS } from '../src/constants/SubjectGradebookListConstants';
 
 async function loginAndNavigate(page: any) {
   const loginActions = new LoginActions(page);
@@ -21,7 +21,7 @@ async function loginAndNavigate(page: any) {
 const COURSES_PER_TEST = 2;
 const TEST_COUNT = 10;
 
-test.describe.serial('Subject Score Gradebook - TH (4A1_auto)', () => {
+test.describe.serial('Subject Score Gradebook - TH (4A1_auto)', { tag: ['@score-by-course', '@th'] }, () => {
   test.setTimeout(300_000);
 
   let courses: string[] = [];
@@ -66,7 +66,7 @@ test.describe.serial('Subject Score Gradebook - TH (4A1_auto)', () => {
   }
 });
 
-test.describe.serial('Subject Score Gradebook - THCS (12A1_auto)', () => {
+test.describe.serial('Subject Score Gradebook - THCS (12A1_auto)', { tag: ['@score-by-course', '@thcs'] }, () => {
   test.setTimeout(300_000);
 
   let courses: string[] = [];

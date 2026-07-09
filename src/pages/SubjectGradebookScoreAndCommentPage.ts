@@ -28,6 +28,11 @@ export class SubjectGradebookScoreAndCommentPage extends BasePage {
     return this.page.locator('.dx-list-item').filter({ hasText: value }).first();
   }
 
+  // Nút "x" để xóa filter học kỳ (dx-select-box thứ 2, showClearButton)
+  semesterClearButton(): Locator {
+    return this.page.locator('dx-select-box').nth(2).locator('.dx-clear-button-area');
+  }
+
   subjectDropdownItem(value: string): Locator {
     return this.page.locator('.dx-list-item').filter({ hasText: value }).first();
   }

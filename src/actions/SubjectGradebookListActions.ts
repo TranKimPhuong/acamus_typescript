@@ -3,12 +3,11 @@ import { SubjectGradebookListPage } from '../pages/SubjectGradebookListPage';
 import { NavigationMenuActions } from './NavigationMenuActions';
 import { Logger } from '../libs/Logger';
 import {
-  TEST_CLASS,
   GRADEBOOK_TEMPLATE,
   SCORE_SUBJECTS,
   COMMENT_SUBJECTS,
   NO_GRADEBOOK_SUBJECTS,
-} from '../constants/ClassConstants';
+} from '../constants/SubjectGradebookListConstants';
 import { TIMEOUTS } from '../constants/LoginConstants';
 
 export class SubjectGradebookListActions {

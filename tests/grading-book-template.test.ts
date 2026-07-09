@@ -11,7 +11,7 @@ import { TH_MOET_MUCDATDUOC_DETAIL } from '../src/constants/SubjectGradebookTemp
 import { THCS_THPT_MOET_DGBD_DETAIL } from '../src/constants/SubjectGradebookTemplateDetailConstants';
 import { THCS_THPT_MOET_DGNX_DETAIL } from '../src/constants/SubjectGradebookTemplateDetailConstants';
 
-test.describe('Sổ điểm mẫu - Subject Grading Book Templates', () => {
+test.describe('Sổ điểm mẫu - Subject Grading Book Templates', { tag: '@gradebook-template' }, () => {
 
   test.setTimeout(300000); // 5 phút — nhiều cột × nhiều assertions
 

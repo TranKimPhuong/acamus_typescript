@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test';
 import { ClassDetailPage } from '../pages/ClassDetailPage';
 import { Logger } from '../libs/Logger';
-import { TEST_CLASS } from '../constants/ClassConstants';
+import { TEST_CLASS_THCS } from '../data/ClassData';
 
 export class ClassDetailActions {
   private classDetailPage: ClassDetailPage;
@@ -13,7 +13,7 @@ export class ClassDetailActions {
   }
 
   async verifyClassHasStudents(): Promise<boolean> {
-    this.logger.step(`Kiểm tra lớp "${TEST_CLASS.NAME}" có ít nhất 1 học sinh`);
+    this.logger.step(`Kiểm tra lớp "${TEST_CLASS_THCS.NAME}" có ít nhất 1 học sinh`);
     await this.classDetailPage.waitForPageLoad();
 
     const count = await this.classDetailPage.studentRows.count().catch(() => 0);
@@ -27,6 +27,6 @@ export class ClassDetailActions {
 
   async assertClassHasStudents(): Promise<void> {
     const ok = await this.verifyClassHasStudents();
-    if (!ok) throw new Error(`Lớp "${TEST_CLASS.NAME}" không có học sinh`);
+    if (!ok) throw new Error(`Lớp "${TEST_CLASS_THCS.NAME}" không có học sinh`);
   }
 }
