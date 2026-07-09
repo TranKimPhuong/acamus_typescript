@@ -27,7 +27,7 @@ test.describe('Class - Danh sách lớp học', { tag: '@class' }, () => {
     await actions.assertClassRecordExists(TEST_CLASS_THCS.CODE, TEST_CLASS_THCS.NAME);
   });
 
-  test(`TC__002 - Kiểm tra lớp ${TEST_CLASS_THCS.NAME} có ít nhất 1 học sinh`, async ({ page }) => {
+  test(`TC_002 - Kiểm tra lớp ${TEST_CLASS_THCS.NAME} có ít nhất 1 học sinh`, async ({ page }) => {
     await loginAndSelectContext(page);
     const classActions = new ClassActions(page);
     const detailActions = new ClassDetailActions(page);

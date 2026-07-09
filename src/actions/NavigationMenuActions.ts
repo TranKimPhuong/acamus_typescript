@@ -3,6 +3,8 @@ import { NavigationMenuPage } from '../pages/NavigationMenuPage';
 import { SubjectGradebookTemplatePage } from '../pages/SubjectGradebookTemplatePage';
 import { SubjectGradebookListPage } from '../pages/SubjectGradebookListPage';
 import { SubjectGradebookScoreAndCommentPage } from '../pages/SubjectGradebookScoreAndCommentPage';
+import { TotalScorePage } from '../pages/TotalScorePage';
+import { TotalGradebookListPage } from '../pages/TotalGradebookListPage';
 import { ClassPage } from '../pages/ClassPage';
 import { Logger } from '../libs/Logger';
 import { TIMEOUTS } from '../constants/LoginConstants';
@@ -13,6 +15,8 @@ export class NavigationMenuActions {
   private subjectGradebookTemplatePage: SubjectGradebookTemplatePage;
   private subjectGradebookListPage: SubjectGradebookListPage;
   private subjectGradebookScoreAndCommentPage!: SubjectGradebookScoreAndCommentPage;
+  private totalScorePage: TotalScorePage;
+  private totalGradebookListPage: TotalGradebookListPage;
   private classPage: ClassPage;
   private logger: Logger;
 
@@ -22,6 +26,8 @@ export class NavigationMenuActions {
     this.subjectGradebookTemplatePage = new SubjectGradebookTemplatePage(page);
     this.subjectGradebookListPage = new SubjectGradebookListPage(page);
     this.subjectGradebookScoreAndCommentPage = new SubjectGradebookScoreAndCommentPage(page);
+    this.totalScorePage = new TotalScorePage(page);
+    this.totalGradebookListPage = new TotalGradebookListPage(page);
     this.classPage = new ClassPage(page);
     this.logger = new Logger('NavigationMenuActions');
   }
@@ -110,5 +116,39 @@ export class NavigationMenuActions {
       TIMEOUTS.LONG,
     );
     await this.page.waitForTimeout(1500);
+  }
+
+  /** Menu: Sổ điểm → Điểm tổng kết */
+  async navigateToTotalScores(): Promise<void> {
+    this.logger.step('Menu: Sổ điểm/ Gradebook');
+    await this.menuPage.waitForElement(this.menuPage.gradebookMenu, TIMEOUTS.MEDIUM);
+    await this.menuPage.clickElement(this.menuPage.gradebookMenu);
+
+    this.logger.step('Mục: Điểm tổng kết/ Total scores');
+    await this.menuPage.waitForElement(this.menuPage.totalScoreMenu, TIMEOUTS.MEDIUM);
+    await this.menuPage.clickElement(this.menuPage.totalScoreMenu);
+
+    await this.totalScorePage.waitForPageLoad();
+    await this.totalScorePage.waitForElement(this.totalScorePage.classInput, TIMEOUTS.LONG);
+    await this.page.waitForTimeout(1500);
+  }
+
+  /** Menu: Sổ điểm -> Thiết lập sổ điểm mẫu → DS sổ điểm tổng kết (mới) */
+  async navigateToTotalGradebookViewsList(): Promise<void> {
+    this.logger.step('Menu: Sổ điểm/ Gradebook');
+    await this.menuPage.waitForElement(this.menuPage.gradebookMenu, TIMEOUTS.MEDIUM);
+    await this.menuPage.clickElement(this.menuPage.gradebookMenu);
+
+    this.logger.step('Menu con: Thiết lập sổ điểm mẫu');
+    await this.menuPage.waitForElement(this.menuPage.gradebookManagementMenu, TIMEOUTS.MEDIUM);
+    await this.menuPage.clickElement(this.menuPage.gradebookManagementMenu);
+
+    this.logger.step('Mục: DS sổ điểm tổng kết (mới)/ Total gradebook (new)');
+    await this.menuPage.waitForElement(this.menuPage.totalGradebookListMenu, TIMEOUTS.MEDIUM);
+    await this.menuPage.clickElement(this.menuPage.totalGradebookListMenu);
+
+    await this.totalGradebookListPage.waitForPageLoad();
+    await this.totalGradebookListPage.waitForElement(this.totalGradebookListPage.gradeFilterInput, TIMEOUTS.LONG);
+    await this.page.waitForTimeout(2000);
   }
 }

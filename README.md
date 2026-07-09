@@ -14,6 +14,13 @@ npm install
 npx playwright install chromium
 ```
 
+## MCP server (hỗ trợ lấy locator)
+
+Project có cấu hình sẵn **Playwright MCP server** trong `.mcp.json` để Claude Code có thể mở trình duyệt thật, load trang test và đọc DOM/accessibility snapshot — giúp lấy locator chính xác theo convention thay vì đoán từ source code tĩnh.
+
+- Lần đầu mở Claude Code trong project, sẽ có prompt yêu cầu **trust** MCP server này — cần approve mới dùng được.
+- Không cần cài đặt thêm gì, server được chạy qua `npx @playwright/mcp@latest` tự động.
+
 ## Chạy test
 
 | Lệnh | Mô tả |
@@ -57,9 +64,11 @@ Danh sách tag hiện có:
 | `@gradebook-template` | Test sổ điểm mẫu |
 | `@gradebook-list` | Test danh sách sổ điểm môn học |
 | `@score-by-course` | Test nhập điểm theo từng course |
-| `@formula-check` | Test kiểm tra công thức tính HK1/HK2/CN |
 | `@th` / `@thcs` | Nhập điểm cho lớp thuộc Bậc Tiểu học / THCS-THPT |
+| `@formula-check` | Test kiểm tra công thức tính HK1/HK2/CN |
 | `@number` / `@letter` | Môn tính điểm số / điểm chữ |
+| `@add-template` | Test thêm mới sổ điểm mẫu cho môn học |
+| `@detail-check` | Test kiểm tra chi tiết cột của sổ điểm mẫu |
 
 Khi thêm test mới, gắn tag qua tham số thứ 2 của `test()`/`test.describe()`:
 

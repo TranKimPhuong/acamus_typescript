@@ -5,6 +5,7 @@ node_modules/
 test-results/
 playwright-report/
 reports/html/data/
+.playwright-mcp/
 
 # Build output
 dist/
@@ -27,3 +28,6 @@ CLAUDE.md
 
 # Misc
 *.csv
+
+# Office temp lock files
+~$*

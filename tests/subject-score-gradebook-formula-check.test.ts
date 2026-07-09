@@ -106,7 +106,7 @@ test(
 );
 
 test(
-  'TC_SSG_FORMULA - Nhập điểm chữ cho HS chỉ định để kiểm tra công thức HK1/HK2/CN - Tiểu học điểm chữ',
+  'TC_SSG_FORMULA - Nhập điểm chữ cho HS chỉ định để kiểm tra công thức HK1/HK2/CN - Tiểu học - Điểm chữ',
   { tag: ['@formula-check', '@th', '@letter'] },
   async ({ page }) => {
     await page.goto('/');

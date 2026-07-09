@@ -16,7 +16,8 @@ export default defineConfig({
     headless: false,
     // Open browser maximized and let Playwright inherit the full window size
     viewport: null,
-    launchOptions: { args: ['--start-maximized'] },
+    // --start-maximized bị Chromium bỏ qua khi có --window-position → set cứng size = độ phân giải màn hình phụ
+    launchOptions: { args: ['--window-position=1920,0', '--window-size=1600,900'] },
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },

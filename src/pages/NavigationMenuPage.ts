@@ -26,6 +26,12 @@ export class NavigationMenuPage extends BasePage {
   // Mục "DS sổ điểm mẫu môn học"
   readonly subjectGradebookListMenu: Locator;
 
+  // Mục "Điểm tổng kết"
+  readonly totalScoreMenu: Locator;
+
+  // Mục "DS sổ điểm tổng kết (mới)"
+  readonly totalGradebookListMenu: Locator;
+
   constructor(page: Page) {
     super(page);
 
@@ -59,6 +65,14 @@ export class NavigationMenuPage extends BasePage {
 
     this.subjectGradebookListMenu = page.locator(
       'a:has(span:has-text("DS sổ điểm môn học")), a:has(span:has-text("Subject gradebook list"))'
+    ).first();
+
+    this.totalScoreMenu = page.locator(
+      'a:has(span:has-text("Điểm tổng kết")), a:has(span:has-text("Total scores"))'
+    ).first();
+
+    this.totalGradebookListMenu = page.locator(
+      'a:has(span:has-text("DS sổ điểm tổng kết")), a:has(span:has-text("Total gradebook (new)"))'
     ).first();
   }
 }

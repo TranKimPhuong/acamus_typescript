@@ -596,7 +596,11 @@ export class SubjectGradebookTemplateDetailActions {
     ).toHaveValue(col.name, { timeout: TIMEOUTS.MEDIUM });
   }
 
-  async assertColumnDetailReportName(col: ColumnConfig): Promise<void> {
+  async assertColumnDetailReportName(col: ColumnConfig, skipReportName = false): Promise<void> {
+    if (skipReportName) {
+      this.logger.step('  Skip assert reportName (navigate từ Danh sách sổ điểm mẫu môn học)');
+      return;
+    }
     if (col.reportName !== undefined) {
       this.logger.step(`  Assert reportName = "${col.reportName}"`);
       await this.highlightField(this.columnDetailPage.reportNameValue());
@@ -721,13 +725,13 @@ export class SubjectGradebookTemplateDetailActions {
     }
   }
 
-  async assertColumnDetailAllFields(col: ColumnConfig): Promise<void> {
+  async assertColumnDetailAllFields(col: ColumnConfig, skipReportName = false): Promise<void> {
     this.logger.step(`Assert toàn bộ fields chi tiết cột "${col.code}"`);
     await this.assertColumnDetailSemester(col);
     await this.assertColumnDetailParent(col);
     await this.assertColumnDetailCode(col);
     await this.assertColumnDetailName(col);
-    await this.assertColumnDetailReportName(col);
+    await this.assertColumnDetailReportName(col, skipReportName);
     await this.assertColumnDetailGradingType(col);
     await this.assertColumnDetailWeight(col);
     await this.assertColumnDetailScheme(col);
@@ -758,7 +762,8 @@ export class SubjectGradebookTemplateDetailActions {
     await this.closeColumnDetail();
   }
 
-  async assertAllSubGradingItemDetails(detail: GradingBookTemplateDetail): Promise<void> {
+  /** @param skipReportName Bỏ qua assert reportName — dùng khi navigate từ Danh sách sổ điểm mẫu môn học (không có field này) */
+  async assertAllSubGradingItemDetails(detail: GradingBookTemplateDetail, skipReportName = false): Promise<void> {
     const cols = detail.columns;
     this.logger.step(`Assert chi tiết ${cols.length} cột của sổ điểm "${detail.code}"`);
 
@@ -771,7 +776,7 @@ export class SubjectGradebookTemplateDetailActions {
       // Chờ popup load đúng cột — codeValue() được scope vào .dx-popup-content
       await expect(this.columnDetailPage.codeValue()).toHaveValue(col.code, { timeout: TIMEOUTS.LONG });
 
-      await this.assertColumnDetailAllFields(col);
+      await this.assertColumnDetailAllFields(col, skipReportName);
       await this.closeColumnDetail();
     }
   }

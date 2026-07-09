@@ -1,5 +1,7 @@
-import { Page, test } from '@playwright/test';
+import { Page, expect, test } from '@playwright/test';
 import { SubjectGradebookListPage } from '../pages/SubjectGradebookListPage';
+import { SubjectGradebookCreateDialogPage } from '../pages/SubjectGradebookCreateDialogPage';
+import { SubjectGradebookTemplateDetailPage } from '../pages/SubjectGradebookTemplateDetailPage';
 import { NavigationMenuActions } from './NavigationMenuActions';
 import { Logger } from '../libs/Logger';
 import {
@@ -13,12 +15,16 @@ import { TIMEOUTS } from '../constants/LoginConstants';
 export class SubjectGradebookListActions {
   private page: Page;
   private listPage: SubjectGradebookListPage;
+  private createDialogPage: SubjectGradebookCreateDialogPage;
+  private templateDetailPage: SubjectGradebookTemplateDetailPage;
   private nav: NavigationMenuActions;
   private logger: Logger;
 
   constructor(page: Page) {
     this.page = page;
     this.listPage = new SubjectGradebookListPage(page);
+    this.createDialogPage = new SubjectGradebookCreateDialogPage(page);
+    this.templateDetailPage = new SubjectGradebookTemplateDetailPage(page);
     this.nav = new NavigationMenuActions(page);
     this.logger = new Logger('SubjectGradebookListActions');
   }
@@ -51,6 +57,65 @@ export class SubjectGradebookListActions {
       this.logger.error(`Không tìm thấy chương trình "${programName}"`);
     }
     return found;
+  }
+
+  /** Kiểm tra môn học đã có sổ điểm mẫu chưa (dựa vào cell "Subject gradebook templates") */
+  async hasGradebookTemplate(subjectName: string): Promise<boolean> {
+    const cell = this.listPage.gradebookTemplateCell(subjectName);
+    const text = (await cell.innerText().catch(() => '')).trim();
+    return text.length > 0;
+  }
+
+  /** Xóa sổ điểm mẫu hiện có của môn học — popup "Create from template gradebook" tự mở lại để chọn sổ điểm mới */
+  async deleteGradebookTemplate(subjectName: string): Promise<void> {
+    this.logger.step(`Xóa sổ điểm mẫu hiện có của môn "${subjectName}"`);
+    const deleteIcon = this.listPage.deleteIcon(subjectName);
+    // Icon bị ẩn bởi CSS (chỉ hiện khi hover row) — chờ attached rồi click force
+    await deleteIcon.waitFor({ state: 'attached', timeout: TIMEOUTS.MEDIUM });
+    await deleteIcon.click({ force: true });
+
+    const yesBtn = this.page.locator('abp-confirmation button#confirm, abp-confirmation .confirmation-button--approve');
+    await expect(yesBtn).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
+    await yesBtn.click();
+
+    // Sau khi xóa, popup "Create from template gradebook" tự mở lại
+    await expect(this.createDialogPage.templateSelectInput()).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
+  }
+
+  /** Bước 3: Click icon "+" (tạo mới) ở cột Action của môn học */
+  async clickAddIcon(subjectName: string): Promise<void> {
+    this.logger.step(`Click icon tạo mới của môn "${subjectName}"`);
+    const icon = this.listPage.addIcon(subjectName);
+    // Icon bị ẩn bởi CSS (chỉ hiện khi hover đúng vào icon) → hover trực tiếp vào icon rồi mới click
+    await icon.waitFor({ state: 'attached', timeout: TIMEOUTS.MEDIUM });
+    await icon.hover({ force: true });
+    await icon.click();
+  }
+
+  /** Bước 4: Chọn sổ điểm mẫu trong popup "Create from template gradebook" */
+  async selectGradebookTemplateInDialog(templateName: string): Promise<void> {
+    this.logger.step(`Chọn sổ điểm mẫu = "${templateName}"`);
+    const input = this.createDialogPage.templateSelectInput();
+    await expect(input).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
+    await input.click();
+    await this.page.locator('.dx-list-item', { hasText: templateName }).first().click();
+  }
+
+  /** Bước 5: Nhấn Lưu trong popup, chờ popup đóng */
+  async saveGradebookDialog(): Promise<void> {
+    this.logger.step('Nhấn Lưu');
+    await this.createDialogPage.saveButton.click();
+    await expect(this.createDialogPage.saveButton).toBeHidden({ timeout: TIMEOUTS.MEDIUM });
+  }
+
+  /** Bước 6: Click icon edit của môn học → mở trang chi tiết sổ điểm mẫu */
+  async openGradebookDetail(subjectName: string): Promise<void> {
+    this.logger.step(`Click icon edit của môn "${subjectName}"`);
+    const icon = this.listPage.editIcon(subjectName);
+    await expect(icon).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
+    await icon.click();
+    await this.templateDetailPage.waitForElement(this.templateDetailPage.columnConfigTable, TIMEOUTS.LONG);
+    await this.page.waitForTimeout(500);
   }
 
   /**
@@ -95,6 +160,17 @@ export class SubjectGradebookListActions {
     return cellText;
   }
 
+  /** Kiểm tra sổ điểm mẫu đã thêm thành công cho 1 môn học bất kì */
+  async verifySubjectGradebookTemplate(subjectName: string, expectedTemplate: string): Promise<void> {
+    const template = await this.getSubjectTemplate(subjectName);
+    if (template !== expectedTemplate) {
+      throw new Error(
+        `Môn "${subjectName}": kỳ vọng "${expectedTemplate}" nhưng nhận được "${template}"`
+      );
+    }
+    this.logger.info(`✓ ${subjectName} → ${template}`);
+  }
+
   /**
    * Bước 4-5: Đi qua từng môn học và kiểm tra sổ điểm mẫu đã đúng chưa.
    * - Môn chấm điểm → phải có template SCORE
@@ -104,24 +180,12 @@ export class SubjectGradebookListActions {
   async verifyAllSubjectGradebookTemplates(): Promise<void> {
     this.logger.step('Kiểm tra sổ điểm mẫu các môn chấm bằng điểm số');
     for (const subject of SCORE_SUBJECTS) {
-      const template = await this.getSubjectTemplate(subject);
-      if (template !== GRADEBOOK_TEMPLATE.SCORE) {
-        throw new Error(
-          `Môn "${subject}": kỳ vọng "${GRADEBOOK_TEMPLATE.SCORE}" nhưng nhận được "${template}"`
-        );
-      }
-      this.logger.info(`✓ ${subject} → ${template}`);
+      await this.verifySubjectGradebookTemplate(subject, GRADEBOOK_TEMPLATE.SCORE_THCS);
     }
 
     this.logger.step('Kiểm tra sổ điểm mẫu các môn chấm bằng nhận xét');
     for (const subject of COMMENT_SUBJECTS) {
-      const template = await this.getSubjectTemplate(subject);
-      if (template !== GRADEBOOK_TEMPLATE.COMMENT) {
-        throw new Error(
-          `Môn "${subject}": kỳ vọng "${GRADEBOOK_TEMPLATE.COMMENT}" nhưng nhận được "${template}"`
-        );
-      }
-      this.logger.info(`✓ ${subject} → ${template}`);
+      await this.verifySubjectGradebookTemplate(subject, GRADEBOOK_TEMPLATE.COMMENT_THCS);
     }
 
     this.logger.step('Kiểm tra môn không gán sổ điểm');
