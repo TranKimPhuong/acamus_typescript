@@ -34,19 +34,29 @@ export class TotalScoreActions {
     this.logger.info(`Đã chọn lớp: "${className}"`);
   }
 
-  /** Chưa gán sổ điểm tổng kết mẫu cho lớp/chương trình → trang hiện cảnh báo "Sổ điểm chưa được thiết lập" */
+  /**
+   * Chưa gán sổ điểm tổng kết mẫu cho lớp/chương trình → trang hiện cảnh báo "Sổ điểm chưa được thiết lập".
+   * Chờ attached trong TIMEOUTS.MEDIUM (không phải check ngay) vì cảnh báo/lưới đều cần gọi API sau khi chọn lớp.
+   */
   async isGradebookNotConfigured(): Promise<boolean> {
-    return await this.listPage.notConfiguredWarning.isVisible().catch(() => false);
+    return await this.listPage.notConfiguredWarning
+      .waitFor({ state: 'visible', timeout: TIMEOUTS.MEDIUM })
+      .then(() => true)
+      .catch(() => false);
   }
 
-  /** Kiểm tra bảng điểm tổng kết có ít nhất 1 học sinh */
+  /**
+   * Kiểm tra bảng điểm tổng kết có ít nhất 1 học sinh.
+   * Dùng expect.poll vì lưới cần gọi API để load điểm/HS sau khi chọn lớp,
+   * count() một lần ngay có thể đọc được 0 do chưa load xong (race condition).
+   */
   async assertStudentListVisible(): Promise<void> {
     this.logger.step('Kiểm tra danh sách học sinh hiện ra');
-    const rowCount = await this.listPage.studentRows.count();
-    expect(
-      rowCount,
-      `Bảng điểm tổng kết phải có hơn 0 học sinh (tìm thấy ${rowCount})`
+    await expect.poll(
+      () => this.listPage.studentRows.count(),
+      { timeout: TIMEOUTS.LONG }
     ).toBeGreaterThan(0);
+    const rowCount = await this.listPage.studentRows.count();
     this.logger.info(`Bảng điểm tổng kết có ${rowCount} học sinh`);
   }
 }
